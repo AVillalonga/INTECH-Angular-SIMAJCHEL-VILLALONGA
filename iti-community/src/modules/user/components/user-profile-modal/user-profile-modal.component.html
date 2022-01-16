@@ -6,17 +6,13 @@
       <img [src]="photoUrl">
     </div>
   </nz-upload>
-  <form nz-form nzLayout="vertical" [formGroup]="profileForm" #f="ngForm">
-    
+  <form nz-form nzLayout="vertical" #f="ngForm">
     <nz-form-item>
-      <nz-form-label nzRequired nzFor="name">Username</nz-form-label>
+      <nz-form-label nzFor="name">Username</nz-form-label>
       <nz-form-control nzErrorTip="Nom obligatoire">
-        <input class="ant-input" type="text" name="username" formControlName="username" id="username" required [(ngModel)]="model.username">
+        <input class="ant-input" type="text" name="username" id="username" required [(ngModel)]="model.username"
+          #nom="ngModel">
       </nz-form-control>
     </nz-form-item>
-
-
   </form>
 </nz-modal>
-
-

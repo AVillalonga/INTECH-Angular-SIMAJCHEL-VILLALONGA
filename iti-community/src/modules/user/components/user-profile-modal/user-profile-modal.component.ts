@@ -1,6 +1,6 @@
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { User } from '../../user.model';
 
@@ -51,8 +51,6 @@ export class UserProfileForm {
   styleUrls: ['./user-profile-modal.component.less']
 })
 export class UserProfileModalComponent implements OnInit {
-  profileForm: FormGroup;
-
   @Input()
   user: User;
 
@@ -62,35 +60,23 @@ export class UserProfileModalComponent implements OnInit {
   isVisible: boolean = false;
   model: UserProfileForm;
 
-  constructor(
-    private userService: UserService,
-    private sanitizer: DomSanitizer,
-    private fb: FormBuilder
-  ) {
+  constructor(private userService: UserService, private sanitizer: DomSanitizer) {
+
   }
 
   ngOnInit(): void {
-
     this.model = new UserProfileForm(this.user);
-    this.profileForm = this.fb.group({
-      username: ['', [Validators.required]],
-    });
   }
 
   get photoUrl(): SafeResourceUrl {
-    console.log(this.model.photoUrl);
     return this.sanitizer.bypassSecurityTrustResourceUrl(this.model.photoUrl || "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/434px-Unknown_person.jpg");
   }
 
   async onOk() {
     // TODO vérifier si le formulaire est valide
-    if (!this.form.valid) return
 
     if (this.model.hasChanged()) {
       // TODO mettre à jour l'utilisateur via le service
-      console.log("url "+this.model.photoUrl)
-      await this.userService.update(this.model)      
-      console.log("ASSS")
     }
 
     this.close();

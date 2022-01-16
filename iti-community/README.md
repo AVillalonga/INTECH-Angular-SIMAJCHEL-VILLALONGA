@@ -58,20 +58,20 @@ Au clic sur le bouton "S'enregistrer", le formulaire va déclancher l'évenement
 
 Le inputs son créés à partir du composant `nz-form-item` de la ui library [ng-zorro](https://ng.ant.design/components/input/en)
 
-#### Level I
+#### Level I ✔️
     
-1. Terminer le formulaire pour l'ajout d'un utilisateur
-2. Rendre le username et le mot de passe obligatoires
-3. En cas de succès, rediriger l'utilisateur sur /splash/login
+1. Terminer le formulaire pour l'ajout d'un utilisateur  ✔️
+2. Rendre le username et le mot de passe obligatoires ✔️
+3. En cas de succès, rediriger l'utilisateur sur /splash/login ✔️
 
-#### Level II
+#### Level II ✔️
 
-4. Afficher les messages d'erreurs de validations
+4. Afficher les messages d'erreurs de validations ✔️
     > Utiliser la propriété `nzErrorTip` sur le composant `nz-form-control`
     ```html
     <nz-form-control nzErrorTip="Message de validation">
     ```
-5. Vérifier si le username est disponible. Informer l'utilisateur de l'indisponibilité d'un username.
+5. Vérifier si le username est disponible. Informer l'utilisateur de l'indisponibilité d'un username. ✔️
     > Utiliser le la méthode `exists` sur la classe `UserQueries`
 
 ### Sign In
@@ -80,20 +80,20 @@ Permet à un utilisateur de se connecter à la plateforme.
 Le formulaire doit contenir 2 champs : "username", "Mot de passe".
 Le clic sur le bouton "Connexion" permet de soumettre le formulaire en appelant la méthode `submit()` du composant.
 
-#### Level I
+#### Level I ✔️
 
-1. Faire le formulaire de sign in
-2. Rendre le username et le mot de passe obligatoires
-3. Rediriger l'utilisateur sur "/" en cas de succès
+1. Faire le formulaire de sign in ✔️
+2. Rendre le username et le mot de passe obligatoires ✔️
+3. Rediriger l'utilisateur sur "/" en cas de succès ✔️
 
-#### Level II
+#### Level II ✔️
 
-4. Afficher les messages d'erreurs de validation pour chaque champs
-5. Afficher un message si le login a échoué
+4. Afficher les messages d'erreurs de validation pour chaque champs ✔️
+5. Afficher un message si le login a échoué ✔️
     > Vous pouvez utiliser le `NzMessageService` pour afficher des messages
 
 ### Room
-Une room est une salle de discussion dans laquelle les utilisateurs peuvent s'échanger des messages.
+Une room est une salle de discussion dans laquelle les utilisateurs peuvent s'échanger des messages. 
 
 Un utilisateur doit en amont avoir sélectionné une room pour pouvoir y poster du contenu.
 
@@ -161,13 +161,13 @@ Un utilisateur doit en amont avoir sélectionné une room pour pouvoir y poster 
 11. Remplacer les liens http par des balises <a>...</a>.
 12. Dans les messages, afficher les mentions `@username` en vert
 
-### User Widget 
+### User Widget  
 
 ### Level I
 
 1. Afficher la photo de l'utilisateur connecté
-2. Pouvoir éditer le profile de l'utilisateur: son username et sa photo en cliquant sur le bouton dédié
-3. Pouvoir se déconnecter de l'application encliquant sur le bonton rouge de logout. Rediriger l'utilisateur vers le /splash/login
+2. Pouvoir éditer le profile de l'utilisateur: son username et sa photo en cliquant sur le bouton dédié ❌
+3. Pouvoir se déconnecter de l'application encliquant sur le bonton rouge de logout. Rediriger l'utilisateur vers le /splash/login ✔️
 
 ### Notifications
 

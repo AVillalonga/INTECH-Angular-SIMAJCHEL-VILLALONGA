@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AuthenticationStore } from './authentication.store';
 import { AuthenticationStorage } from './authentication.storage';
 import { LoginComponent } from './components/login/login.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { AuthenticationCommands } from './services/authentication.commands';
@@ -37,7 +37,8 @@ import { AuthenticationInterceptor } from './authentication.interceptor';
     FormsModule,
     NzFormModule,
     NzButtonModule,
-    NzMessageModule
+    NzMessageModule,
+    ReactiveFormsModule,
   ]
 })
 export class AuthenticationModule { }

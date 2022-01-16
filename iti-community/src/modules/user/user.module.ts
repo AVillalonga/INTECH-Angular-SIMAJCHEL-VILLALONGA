@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserRegistrationComponent } from './components/user-registration/user-registration.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -44,7 +44,8 @@ import { NotificationModule } from '../notification/notification.module';
     NzModalModule,
     NzBadgeModule,
     NzUploadModule,
-    NotificationModule
+    NotificationModule,
+    ReactiveFormsModule
   ]
 })
 export class UserModule { }

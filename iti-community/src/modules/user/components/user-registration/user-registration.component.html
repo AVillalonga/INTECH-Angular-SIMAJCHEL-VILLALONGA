@@ -1,33 +1,51 @@
 <div class="user-registration">
-  <form nz-form nzLayout="vertical" #f="ngForm" (ngSubmit)="submit()">
+  <form nz-form nzLayout="vertical" [formGroup]="registrationForm" (ngSubmit)="submit()">
+
+    <!-- USERNAME -->
     <nz-form-item>
-      <nz-form-label nzFor="username">Username</nz-form-label>
-      <nz-form-control>
-        <input class="ant-input" type="text" name="username" id="username" [(ngModel)]="model.username"
-          #username="ngModel">
+      <nz-form-label nzRequired nzFor="username">Pseudo</nz-form-label>
+      <nz-form-control [nzErrorTip]="usernameErrorTpl" nzValidatingTip="Une seconde...">
+        <input nz-input type="text" formControlName="username" id="username" class="ant-input" />
       </nz-form-control>
+      <ng-template #usernameErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">Champ obligatoire</ng-container>
+        <ng-container *ngIf="control.hasError('duplicated')">Ce nom d'utilisateur est déjà utilisé
+        </ng-container>
+      </ng-template>
     </nz-form-item>
+
+    <!-- PASSWORD -->
     <nz-form-item>
-      <nz-form-label nzFor="password">Mot de passe</nz-form-label>
-      <nz-form-control>
-        <input class="ant-input" type="password" name="password" id="password" [(ngModel)]="model.password"
-          #password="ngModel">
+      <nz-form-label nzRequired nzFor="password">Mot de passe</nz-form-label>
+      <nz-form-control nzErrorTip="Champ obligatoire">
+        <input nz-input type="password" id="password" formControlName="password" class="ant-input" />
       </nz-form-control>
     </nz-form-item>
 
+    <!-- CONFIRM_PASSWORD -->
     <nz-form-item>
-      <nz-form-label nzFor="confirm-password">Confirmation du mot de passe</nz-form-label>
+      <nz-form-label nzRequired nzFor="confirm_password">Confirmation du mot de passe</nz-form-label>
+      <nz-form-control [nzErrorTip]="confirmErrorTpl">
+        <input nz-input type="password" id="confirm_password" formControlName="confirm_password" class="ant-input" />
+      </nz-form-control>
+      <ng-template #confirmErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">Champ obligatoire</ng-container>
+        <ng-container *ngIf="control.hasError('confirm')">
+          Les 2 mots de passes doivent être identique
+        </ng-container>
+      </ng-template>
+    </nz-form-item>
+
+    <!-- SUBMIT BUTTON -->
+    <nz-form-item>
       <nz-form-control>
-        <input class="ant-input" type="password" name="confirm-password" id="confirm-password"
-          [(ngModel)]="model.confirmPassword" #confirm="ngModel">
+        <button nz-button class="register-button" nzType="default"
+          [disabled]="!registrationForm.valid">S'enregistrer</button>
       </nz-form-control>
     </nz-form-item>
-    <nz-form-item>
-      <nz-form-control>
-        <button class="register-button" nz-button nzType="default" [disabled]="f.form.invalid">S'enregistrer</button>
-      </nz-form-control>
-    </nz-form-item>
+
   </form>
+
   <p class="divider">Déjà enregistré ?</p>
-  <button class="login-button" nz-button nzType="primary" (click)="goToLogin()">Connectez-vous</button>
+  <button nz-button (click)="goToLogin()" class="login-button" nzType="primary">Connectez-vous</button>
 </div>

@@ -43,7 +43,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## TP
 
 
-### Sign Up
+### Sign Up ✔️
 Permet d'enregistrer un nouvel utilisateur sur la plateforme.
 
 
@@ -74,7 +74,7 @@ Le inputs son créés à partir du composant `nz-form-item` de la ui library [ng
 5. Vérifier si le username est disponible. Informer l'utilisateur de l'indisponibilité d'un username.
     > Utiliser le la méthode `exists` sur la classe `UserQueries`
 
-### Sign In
+### Sign In ✔️
 Permet à un utilisateur de se connecter à la plateforme.
 
 Le formulaire doit contenir 2 champs : "username", "Mot de passe".
@@ -92,7 +92,7 @@ Le clic sur le bouton "Connexion" permet de soumettre le formulaire en appelant 
 5. Afficher un message si le login a échoué
     > Vous pouvez utiliser le `NzMessageService` pour afficher des messages
 
-### Room
+### Room ✔️
 Une room est une salle de discussion dans laquelle les utilisateurs peuvent s'échanger des messages.
 
 Un utilisateur doit en amont avoir sélectionné une room pour pouvoir y poster du contenu.

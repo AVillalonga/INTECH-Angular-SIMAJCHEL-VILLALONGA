@@ -12,12 +12,18 @@
   </div>
 
   <p class="post-text">
-    {{ post.message.text.content }}
+    {{ post.message.text.content }} {{post.message.attachements.length}}
   </p>
 
   <!-- Itérer sur les "attachements" du message -->
   <div class="post-attachements" *ngFor="let element of post.message.attachements">
     <!-- Utiliser ngIf pour afficher le bon composant en fonction du type d'élément-->
+
+
+    <div *ngIf="element.type === 'image'">
+      HELLO
+      <app-post-attachement-image [element]="element" ></app-post-attachement-image>
+    </div>
   </div>
   <div #anchor></div>
 </div>

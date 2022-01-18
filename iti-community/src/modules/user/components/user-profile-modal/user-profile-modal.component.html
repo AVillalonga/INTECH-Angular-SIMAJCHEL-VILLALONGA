@@ -1,18 +1,25 @@
 <nz-modal [(nzVisible)]="isVisible" nzTitle="Profil" (nzOnCancel)="onCancel()" (nzOnOk)="onOk()">
-
+  <nz-form-label nzRequired nzFor="name">Votre photo</nz-form-label>
   <nz-upload [nzBeforeUpload]="onFileUpload" [nzAccept]="supportedTypes" class="profile-uploader">
     <div class="profil-picture">
       <i nz-icon nzType="edit"></i>
       <img [src]="photoUrl">
     </div>
   </nz-upload>
-  <form nz-form nzLayout="vertical" #f="ngForm">
+
+  <form nz-form nzLayout="vertical" [formGroup]="formProfileEdition">
     <nz-form-item>
-      <nz-form-label nzFor="name">Username</nz-form-label>
-      <nz-form-control nzErrorTip="Nom obligatoire">
-        <input class="ant-input" type="text" name="username" id="username" required [(ngModel)]="model.username"
-          #nom="ngModel">
+      <nz-form-label nzRequired nzFor="name">Pseudo</nz-form-label>
+      <nz-form-control [nzErrorTip]="usernameErrorTpl" nzValidatingTip="Une seconde...">
+        <input class="ant-input" type="text" formControlName="username" id="username" required
+          [(ngModel)]="model.username">
       </nz-form-control>
+
+      <ng-template #usernameErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">Champ obligatoire</ng-container>
+        <ng-container *ngIf="control.hasError('duplicated')">Ce nom d'utilisateur est déjà utilisé
+        </ng-container>
+      </ng-template>
     </nz-form-item>
   </form>
 </nz-modal>

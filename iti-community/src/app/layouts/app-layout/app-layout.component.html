@@ -1,12 +1,17 @@
 <div class="app-layout">
   <div class="panel-drawer" [ngClass]="{opened: showDrawer}">
     <!-- Afficher la liste des notifications -->
-      <!-- <div *ngFor="let NOTIF of NOTIFS">
-      <a [routerLink]="['/', room.id]">{{room.name}}</a>
-    </div>
-    -->
-    HELLO
-    
+    <nz-timeline>
+      <ng-container *ngIf="(notification$ | async) as notificationState" class="timeline">
+        <nz-timeline-item *ngFor="let notififcation of notificationState.notifications" (click)="openRoom(notification.payload.room.id)">
+          <div *ngIf="notififcation.subject === 'room_added'">
+            {{ notififcation | json }}
+            <!-- Ajout d'une room {{ notification.payload.room.name }} -->
+          </div>
+        </nz-timeline-item>
+      </ng-container>
+    </nz-timeline>
+
   </div>
   <div class="app-layout-panel-left">
     <div class="panel-head">

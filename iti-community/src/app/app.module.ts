@@ -26,6 +26,7 @@ import { NotificationModule } from 'src/modules/notification/notification.module
 import { WebsocketConnection } from 'src/modules/common/WebsocketConnection';
 import { SocketIoWebsocketConnection } from 'src/modules/common/SocketIoWebsocketConnection';
 import { WebSocketTopic } from 'src/modules/common/WebSocketTopic';
+import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 const ws = new SocketIoWebsocketConnection();
 
 registerLocaleData(fr);
@@ -53,7 +54,8 @@ registerLocaleData(fr);
     HttpClientModule,
     BrowserAnimationsModule,
     NzFormModule,
-    NzButtonModule
+    NzButtonModule,
+    NzTimelineModule
   ],
   providers: [{ provide: NZ_I18N, useValue: fr_FR }, {
     provide: WebsocketConnection,

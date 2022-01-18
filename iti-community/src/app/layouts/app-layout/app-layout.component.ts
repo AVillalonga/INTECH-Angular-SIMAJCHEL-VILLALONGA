@@ -31,6 +31,6 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
     }
   }
   onToggleNotifications() {
-
+    this.showDrawer = !this.showDrawer
   }
 }

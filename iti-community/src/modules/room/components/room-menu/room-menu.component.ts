@@ -32,5 +32,29 @@ export class RoomMenuComponent implements OnInit {
 
   async ngOnInit() {
     this.rooms = await this.queries.getAll();
+
+    // Initialize events
+    this.feedStore.onRoomIdChange(this.onRoomChange.bind(this));
+    this.roomSocketService.onNewRoom(this.onNewRoom.bind(this));
+
+    // Redirection
+    if(this.lastestRoom.length == 0) {
+      // First room
+      this.roomId$.subscribe(async id => {
+        if (typeof id === 'undefined') await this.router.navigate(['/', this.rooms[0].id]);
+      });
+    } else {
+      // Last room visited
+      this.router.navigate(['/', this.lastestRoom]);
+    }
   }
+
+  onNewRoom = (room: Room) => this.rooms.push(room);
+
+  onRoomChange = (roomId: string | undefined) => {
+    if (roomId) this.lastestRoom = roomId;
+  }
+
+  get lastestRoom(): string { return localStorage.getItem("iti.roomid") || ""; }
+  set lastestRoom(roomId: string) { localStorage.setItem("iti.roomid", roomId); }
 }

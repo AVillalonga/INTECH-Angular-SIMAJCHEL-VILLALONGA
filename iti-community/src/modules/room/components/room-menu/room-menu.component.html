@@ -8,8 +8,6 @@
   </div>
 
   <div *ngFor="let room of rooms">
-    <a [routerLink]="['/', room.id]">{{room.name}}</a>
+    <a [routerLink]="['/', room.id]" class="menu-item" [ngClass]="{'selected': (roomId$ | async) === room.id}">{{room.name}}</a>
   </div>
-
-  <!-- <div class="menu-item" [ngClass]="{'selected': (roomId$ | async) === '[id de la room]'}"></div> -->
 </div>

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { take } from 'rxjs/operators';
 import { PageModel } from 'src/modules/common/Pagination';
 import { FeedStore } from 'src/modules/feed/feed.store';
 import { UserStore } from 'src/modules/user/user.store';
@@ -32,5 +33,6 @@ export class PostService {
 
     like(post: Post) {
       // TODO appeler la méthode like sur PostCommands
+      this.commands.like(post.roomId, post.id)
     }
 }

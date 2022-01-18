@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild, ViewChildren } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzPopoverComponent, NzPopoverDirective } from 'ng-zorro-antd/popover';
 import { UserService } from 'src/modules/user/services/user.service';
 import { User } from 'src/modules/user/user.model';
@@ -26,14 +27,17 @@ export class FeedInputComponent {
   /**
    * Staging file to upload
    */
-  file: File | null = null;
+  _file: File | null = null;
+  set file(value: File | null) { this._file = value }
+  get file() { return this._file; }
 
   currentMention?: RegExpMatchArray;
 
-  supportedTypes = "image/png,image/jpeg,image/gif,image/bmp,image/bmp,video/mpeg,audio/mpeg,audio/x-wav,image/webp";
+  supportedTypes = "image/png,image/jpeg,image/gif,image/bmp,image/bmp,video/mpeg,audio/mpeg,audio/x-wav,image/webp,video/mp4";
 
   constructor(
-    private userService: UserService
+    private userService: UserService,
+    private messageService: NzMessageService
   ) { }
 
   /**
@@ -77,16 +81,21 @@ export class FeedInputComponent {
   /**
    * Close tag event handler. Trigger when the user wants to remove a file.
    */
-  onCloseTag() {
-    this.setFile(null);
-  }
+  onCloseTag() { this.file = null; }
 
   /**
   * Event handler
   * @param file the file privded by the user
   */
   onFileUpload = (file: File) => {
-    this.setFile(file);
+    const type = this.supportedTypes.split(",").filter(sT => sT === file.type)[0] || undefined;
+
+    if(type) {
+      this.file = file;
+    } else {
+      this.messageService.error(`Impossible d'envoyer des '${file.name.split('.').pop()}'`);
+    }
+
     return false;
   }
 
@@ -131,14 +140,6 @@ export class FeedInputComponent {
   }
 
   /**
-   * Set an allowed file to send with the input message
-   * @param file The file to send with the message
-   */
-  setFile(file: File | null) {
-    this.file = file;
-  }
-
-  /**
    * Emit the "messageSent" event
    */
   fireMessageSent() {
@@ -150,7 +151,7 @@ export class FeedInputComponent {
    */
   clear() {
     this.message = "";
-    this.setFile(null);
+    this.file = null;
     this.inputPopover.hide();
   }
 }

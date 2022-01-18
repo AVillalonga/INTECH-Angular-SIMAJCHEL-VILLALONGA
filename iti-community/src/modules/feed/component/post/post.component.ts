@@ -14,22 +14,22 @@ export class PostComponent implements OnInit, AfterViewInit {
   @ViewChild("anchor")
   anchor: ElementRef<HTMLDivElement>;
 
-  get photo() { 
-    return this.post.createdBy.photoUrl != undefined 
-    ? { 'background-image': `url(${this.post.createdBy.photoUrl})` } 
-    : { 'background-image': `none` };
+  get photo() {
+    return this.post.createdBy.photoUrl != undefined
+      ? { 'background-image': `url(${this.post.createdBy.photoUrl})` }
+      : { 'background-image': `none` };
   }
 
   constructor(private postService: PostService) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   ngAfterViewInit() {
     this.anchor.nativeElement.scrollIntoView();
   }
 
-  async like() {
-    // TODO like du post
+  like() {
+    this.post.liked = true;
+    this.postService.like(this.post);
   }
 }

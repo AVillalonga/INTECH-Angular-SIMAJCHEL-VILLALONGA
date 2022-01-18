@@ -7,7 +7,7 @@
   <div class="post-date">{{ post.createdAt | feedDatePipe }}</div>
 
   <!-- TIPS: [ngClass]="{liked: [expression booléenne]}" -->
-  <div class="post-user-like">
+  <div (click)="like()" class="post-user-like">
     <i nz-icon nzType="heart" [nzTheme]="post.liked ? 'fill' : 'outline'"></i>
   </div>
 

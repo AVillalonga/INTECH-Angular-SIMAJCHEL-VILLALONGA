@@ -7,7 +7,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { AuthenticationCommands } from './services/authentication.commands';
-import { LocalAuthenticationCommands } from './services/plateform/local/LocalAuthenticationCommands';
 import { NzMessageModule } from "ng-zorro-antd/message";
 import { AuthenticationService } from './services/authentication.service';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -25,7 +24,7 @@ import { AuthenticationInterceptor } from './authentication.interceptor';
     },
     {
       provide: AuthenticationCommands,
-      useClass: LocalAuthenticationCommands
+      useClass: HttpAuthenticationCommands
     },
     AuthenticationService,
     AuthenticationStore,

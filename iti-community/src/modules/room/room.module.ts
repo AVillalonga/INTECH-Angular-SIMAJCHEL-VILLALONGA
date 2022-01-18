@@ -27,11 +27,11 @@ import { RouterModule } from '@angular/router';
   exports: [RoomMenuComponent, RoomComponent],
   providers: [{
     provide: RoomCommands,
-    useClass: LocalRoomCommands
+    useClass: HttpRoomCommands
   },
   {
     provide: RoomQueries,
-    useClass: LocalRoomQueries
+    useClass: HttpRoomQueries
   },
     RoomStore,
     RoomService,

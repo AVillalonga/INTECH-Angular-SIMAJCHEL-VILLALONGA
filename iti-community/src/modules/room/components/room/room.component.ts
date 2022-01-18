@@ -10,17 +10,14 @@ import { MessageSentEventPayload } from 'src/modules/input/input.model';
   styleUrls: ['./room.component.less']
 })
 export class RoomComponent implements OnInit {
-  constructor(private postService: PostService, private mapper: PostMapper, private store: FeedStore) {
 
-  }
+  constructor(private postService: PostService, private mapper: PostMapper, private store: FeedStore) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   async onMessage(payload: MessageSentEventPayload) {
-    if (!this.store.value.roomId) {
-      return;
-    }
+    if (!this.store.value.roomId) return;
+
     const post = await this.postService.create(this.store.value.roomId, payload.message, payload.file);
     this.store.appendPost(this.mapper.map(post));
   }

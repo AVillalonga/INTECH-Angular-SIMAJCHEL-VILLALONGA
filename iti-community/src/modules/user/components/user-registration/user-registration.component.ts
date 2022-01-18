@@ -39,7 +39,7 @@ export class UserRegistrationComponent implements OnInit {
 
   usernameAlreadyUsed = async (control: FormControl) => {
     if (!control.value) return { required: true };
-    if (await this.userQueries.exists(control.value)) return { exist: true, error: true };
+    if (control.value.length > 0 && await this.userQueries.exists(control.value)) return { exist: true, error: true };
     return {};
   };
 
@@ -54,11 +54,17 @@ export class UserRegistrationComponent implements OnInit {
 
   async submit() {
     if (this.registrationForm.valid) {
-      await this.userService.register(
-        this.registrationForm.controls.username.value,
-        this.registrationForm.controls.password.value
-      );
-      this.goToLogin(); // Redirection
+      try {
+        await this.userService.register(
+          this.registrationForm.controls.username.value,
+          this.registrationForm.controls.password.value
+        );
+        this.goToLogin(); // Redirection
+      } catch (exception) {
+        if (exception)
+          if (exception.status == 400)
+            this.registrationForm.controls.username.setErrors({ invalid: true });
+      }
     }
   }
 

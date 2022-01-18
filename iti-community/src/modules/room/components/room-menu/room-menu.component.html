@@ -1,14 +1,15 @@
 <div class="room-menu">
+  
+  <app-room-create-modal #modal></app-room-create-modal>
 
   <div class="room-meanu-header">
     <h3>Rooms</h3>
-    <button nz-button nzType="default" nzGhost><i nz-icon nzType="plus"></i></button>
+    <button nz-button (click)="modal.open()" nzGhost nzType="default"><i nz-icon nzType="plus"></i></button>
   </div>
 
   <div *ngFor="let room of rooms">
     <a [routerLink]="['/', room.id]">{{room.name}}</a>
   </div>
-  <!-- <div class="menu-item" [ngClass]="{'selected': (roomId$ | async) === '[id de la room]'}"></div> -->
 
+  <!-- <div class="menu-item" [ngClass]="{'selected': (roomId$ | async) === '[id de la room]'}"></div> -->
 </div>
-<app-room-create-modal #modal></app-room-create-modal>

@@ -21,7 +21,7 @@ import { FeedSocketService } from './services/feed.socket.service';
 @NgModule({
   declarations: [FeedComponent, PostComponent, PostAttachementImageComponent, PostAttachementVideoComponent, PostAttachementAudioComponent, PostAttachementYoutubeComponent],
   exports: [FeedComponent, PostComponent],
-  providers: [PostMapper, PostService, FeedStore, {
+  providers: [FeedSocketService, PostMapper, PostService, FeedStore, {
     provide: PostCommands,
     useClass: HttpPostCommands
   }, {

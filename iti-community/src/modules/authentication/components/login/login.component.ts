@@ -37,18 +37,11 @@ export class LoginComponent implements OnInit {
   async login() {
     if (this.loginForm.valid) {
       try {
-        console.log(
-          this.loginForm.controls.username.value,
-          this.loginForm.controls.password.value
-        );
-        
         const response = await this.authService.authenticate(
           this.loginForm.controls.username.value,
           this.loginForm.controls.password.value
         );
-
-        console.log(response);
-
+        
         if (response) {
           response.success
             ? await this.router.navigate(['/'])

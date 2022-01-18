@@ -11,6 +11,8 @@
         <ng-container *ngIf="control.hasError('required')">Champ obligatoire</ng-container>
         <ng-container *ngIf="control.hasError('duplicated')">Ce nom d'utilisateur est déjà utilisé
         </ng-container>
+        <ng-container *ngIf="control.hasError('invalid')">Le nom d'utilisateur n'est pas valide
+        </ng-container>
       </ng-template>
     </nz-form-item>
 

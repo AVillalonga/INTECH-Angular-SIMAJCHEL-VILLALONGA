@@ -5,7 +5,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { RoomCreateModalComponent } from './components/room-create-modal/room-create-modal.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { RoomCommands } from './services/room.commands';
@@ -47,7 +47,8 @@ import { RouterModule } from '@angular/router';
     NzSelectModule,
     FeedModule,
     InputModule,
-    RouterModule 
+    RouterModule,
+    ReactiveFormsModule
   ]
 })
 export class RoomModule { }

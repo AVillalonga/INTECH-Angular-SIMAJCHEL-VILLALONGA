@@ -7,6 +7,7 @@ import { RoomStore } from '../../room.store';
 import { RoomQueries } from '../../services/room.queries';
 import { RoomService } from '../../services/room.service';
 import { RoomSocketService } from '../../services/room.socket.service';
+import { RoomCreateModalComponent } from '../room-create-modal/room-create-modal.component';
 @Component({
   selector: 'app-room-menu',
   templateUrl: './room-menu.component.html',
@@ -14,8 +15,9 @@ import { RoomSocketService } from '../../services/room.socket.service';
 })
 export class RoomMenuComponent implements OnInit {
 
-  roomId$: Observable<string | undefined>;
+  @ViewChild('modal') modal: RoomCreateModalComponent;
 
+  roomId$: Observable<string | undefined>;
   rooms: Room[];
 
   constructor(

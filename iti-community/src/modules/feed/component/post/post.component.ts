@@ -14,9 +14,13 @@ export class PostComponent implements OnInit, AfterViewInit {
   @ViewChild("anchor")
   anchor: ElementRef<HTMLDivElement>;
 
-  constructor(
-    private postService: PostService
-  ) { }
+  get photo() { 
+    return this.post.createdBy.photoUrl != undefined 
+    ? { 'background-image': `url(${this.post.createdBy.photoUrl})` } 
+    : { 'background-image': `none` };
+  }
+
+  constructor(private postService: PostService) { }
 
   ngOnInit(): void {
   }

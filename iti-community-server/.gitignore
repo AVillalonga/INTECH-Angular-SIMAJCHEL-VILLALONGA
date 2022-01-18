@@ -49,3 +49,5 @@ Thumbs.db
 *.wmv
 
 /files
+
+src/modules/database/services/ArangoDbConnection.ts

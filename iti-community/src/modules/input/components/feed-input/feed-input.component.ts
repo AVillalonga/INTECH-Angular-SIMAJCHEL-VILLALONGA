@@ -67,7 +67,7 @@ export class FeedInputComponent {
 
 
   /**
-   * Message change evetn handler
+   * Message change event handler
    * @param message
    */
   onMessageChanged(message: string) {
@@ -142,7 +142,7 @@ export class FeedInputComponent {
    * Emit the "messageSent" event
    */
   fireMessageSent() {
-    this.messageSent.emit({ date: new Date(Date.now()), message: this.message });
+    this.messageSent.emit({ date: new Date(Date.now()), message: this.message, file: (this.file || undefined) });
   }
 
   /**

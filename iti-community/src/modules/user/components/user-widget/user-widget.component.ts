@@ -47,7 +47,9 @@ export class UserWidgetComponent implements OnInit {
       nzContent: "Êtes-vous sûr(e) de vouloir déconnecter votre session ?",
       nzOkText: "Déconnexion",
       nzOnOk: () => {
-        // TODO logout puis rediriger vers "/splash/login"
+        // TODO logout puis rediriger vers "/splash/login"        
+        this.store.reset()
+        this.router.navigate(["splash/login"]);
       }
     });
   }

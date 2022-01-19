@@ -55,22 +55,25 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
   }
 
   onToggleNotifications() {
-    this.showDrawer = !this.showDrawer
+    this.showDrawer = !this.showDrawer;
+    if (!this.showDrawer) this.notificationService.markAsViewed();
   }
 
   redirectByNotif(notif: AnyNotification) {
     console.log(notif);
     switch (notif.subject) {
       case 'new_user':
-        // ne rien faire
+        // ne rien faire..
         break;
+
       case 'post_liked':
-        (notif as PostLikedNotification).payload.preview
+        // ne rien faire..
         break;
+
       case 'room_added':
         this.router.navigate(['/', (notif as RoomAddedNotification).payload.room.id]);
         this.onToggleNotifications();
-        break;
+        return;
     }
 
     this.notificationService.markAsViewed();

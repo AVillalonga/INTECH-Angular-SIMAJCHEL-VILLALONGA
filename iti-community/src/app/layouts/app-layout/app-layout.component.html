@@ -3,12 +3,12 @@
     <!-- Afficher la liste des notifications -->
     <nz-list nzItemLayout="horizontal">
       <ng-container *ngIf="(notification$ | async) as notificationState" class="timeline">
-        
-        <nz-list-item *ngFor="let notif of notificationState.notifications" (click)='redirectByNotif(notif)'>
-          <nz-list-item-meta [nzAvatar]="notif.payload.user.photoUrl"
+
+        <nz-list-item *ngFor="let notif of notificationState.notifications" (click)='redirectByNotif(notif)'
+          [ngClass]="notif.viewedAt > 0 ? ['viewed']: ['unviewed']">
+          <nz-list-item-meta [nzAvatar]="notif.payload.user.photoUrl || notif.payload.user.photoLocation"
             [nzDescription]="notif.timestamp | feedDatePipe : 'short'">
             <nz-list-item-meta-title>
-
               <div>
                 <span class="notification-username">{{ notif.payload.user.username }}</span>
                 <span class="notification-description" *ngIf="notif.subject === 'new_user'">
@@ -27,7 +27,7 @@
             </nz-list-item-meta-title>
           </nz-list-item-meta>
         </nz-list-item>
-        
+
       </ng-container>
     </nz-list>
 

@@ -6,7 +6,7 @@
 
         <nz-list-item *ngFor="let notif of notificationState.notifications" (click)='redirectByNotif(notif)'
           [ngClass]="notif.viewedAt > 0 ? ['viewed']: ['unviewed']">
-          <nz-list-item-meta [nzAvatar]="notif.payload.user.photoUrl || notif.payload.user.photoLocation"
+          <nz-list-item-meta [nzAvatar]="notif.payload.user.photoUrl || notif.payload.user.photoLocation || 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/434px-Unknown_person.jpg'"
             [nzDescription]="notif.timestamp | feedDatePipe : 'short'">
             <nz-list-item-meta-title>
               <div>
@@ -16,7 +16,7 @@
                 </span>
 
                 <span class="notification-description" *ngIf="notif.subject === 'post_liked'">
-                  à liker l'un de votre post : <i class="preview">{{ notif.payload.preview | slice : 0 : 32 }}</i>
+                  à liker l'un de vos post : <i class="preview">{{ notif.payload.preview | slice : 0 : 32 }}</i>
                 </span>
 
                 <span class="notification-description" *ngIf="notif.subject === 'room_added'">
@@ -30,7 +30,8 @@
 
       </ng-container>
     </nz-list>
-
+    <div class="dark" [ngClass]="{open: showDrawer}" (click)="onToggleNotifications()">
+    </div>
   </div>
   <div class="app-layout-panel-left">
     <div class="panel-head">

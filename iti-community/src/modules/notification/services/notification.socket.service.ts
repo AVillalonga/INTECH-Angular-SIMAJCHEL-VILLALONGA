@@ -4,6 +4,7 @@ import { AuthenticationStore } from "src/modules/authentication/authentication.s
 import { WebSocketTopic } from "src/modules/common/WebSocketTopic";
 import { AnyNotification } from "../notification.model";
 import { NotificationStore } from "../notification.store";
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Injectable()
 export class NotificationSocketService {
@@ -12,7 +13,8 @@ export class NotificationSocketService {
   constructor(
     private socketTopic: WebSocketTopic,
     private authStore: AuthenticationStore,
-    private notificationStore: NotificationStore) {
+    private notificationStore: NotificationStore,
+    private nzNotificationService: NzNotificationService) {
     authStore.get(s => s ? s.userId : undefined)
       .pipe(distinctUntilChanged())
       .subscribe(userId => {
@@ -28,7 +30,7 @@ export class NotificationSocketService {
         }
       });
 
-      this.onNewNotification(this.appendNotification.bind(this));
+    this.onNewNotification(this.appendNotification.bind(this));
   }
 
   onNewNotification(callback: (notif: AnyNotification) => any) {
@@ -45,6 +47,30 @@ export class NotificationSocketService {
 
   private appendNotification(notif: AnyNotification) {
     this.notificationStore.appendNotification(notif);
+
+
+    let title = notif.payload.user.username;
+    let content = '';
+    switch (notif.subject) {
+      case 'new_user':
+        title += ' viens de nous rejoindre';
+        break;
+
+      case 'post_liked':
+        title += ' à liker l\'un de vos post';
+        content = notif.payload.preview;
+        break;
+
+      case 'room_added':
+        title += 'à ajouté la room ' + notif.payload.room.name;
+        break;
+    }
+
+    this.nzNotificationService.info(title, content, {
+      nzStyle: {
+        width: '600px'
+      }
+    })
   }
 
   private subscribe(userId: string, callback: (notif: AnyNotification) => any) {

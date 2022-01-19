@@ -13,9 +13,9 @@
     padding: 0 0.5rem;
   }
 
-  @keyframes fadeInNotification {
-    0% { background-color: #428bca; }
-    100% { background-color: #428bca10; }
+  @keyframes fadeInNotificationLayout {
+    0% { background-color: #00000000; }
+    100% { background-color: #00000030; }
   }
 
   ::ng-deep nz-list nz-spin {
@@ -27,17 +27,13 @@
   ::ng-deep nz-list nz-spin .ant-spin-container {
     display: flex;
     flex-direction: column-reverse;
+    background-color:white;
   }
 
   ::ng-deep nz-list-item {
-    // animation: fadeInNotification 1s linear;
     padding: 1rem;
     border-bottom: 0;
     transition: 300ms;
-  }
-
-  :ng-deep .ant-list:hover {
-    background-color: #428bca60;
   }
 
   ::ng-deep nz-list .ant-list-item-meta-avatar {
@@ -46,7 +42,7 @@
 
   ::ng-deep .unviewed {
     border-left: 2px solid yellowgreen;
-    background-color: rgba(0,255,0,0.1);
+    background-color: rgba(0,255,0,0.3);
   }
 
   ::ng-deep .viewed {
@@ -56,18 +52,21 @@
 
   .panel-drawer {
     position: absolute;
-    width: 200px;
-    height: 100%;
-    max-height: 100%;
+    width: calc(100% - 240px);
+    height: 100vh;
     overflow: hidden;
-    box-shadow: 1px 0 15px 0px rgba(0, 0, 0, .1);
-    left: 40px;
+    left: -100%;
     z-index: 1;
-    background-color: white;
-    transition: all .2s ease;
+    transition: all .7s ease;
+    display: flex;
 
     &.opened {
-      transform: translate(200px);
+      display: flex;
+      transform: translate(calc(100% + 480px));
+    }
+
+    nz-list {
+      width: 300px;
     }
 
     .notification-username {
@@ -89,5 +88,12 @@
 
   .app-layout-panel-main {
     flex: 1;
+  }
+
+  .dark {
+    width: 100%;
+    &.open {
+      animation: 0.3s fadeInNotificationLayout 0.7s linear both;
+    }
   }
 }

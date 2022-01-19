@@ -8,6 +8,10 @@ export class PostMapper {
     }
   }
 
+  private escapeRegExp(str : String) : String {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+  }
+
   private parseMessage(message: string): PostMessage {
     // TODO rajouter png jpg et gif
     const pictureRegex = /http[s]?:\/\/\S+\.(jpeg|jpg|png|gif)/gmi;
@@ -24,29 +28,23 @@ export class PostMapper {
     
     //const userTagRegex = /(?:\s|^)(@[a-zA-Z0-9](?:[._-](?![._-])|[a-zA-Z0-9]){1,18}[a-zA-Z0-9])(?:\s|[\b]|$)/gmi;
     const userTagRegex = /(?:\B)(@[a-zA-Z0-9](?:[._-](?![._-])|[a-zA-Z0-9]){1,18}[a-zA-Z0-9])/gmi;
-
+    
     const attachements: MessageElement[] = [];
 
     var mappedMessage = message
-    const urlMatches = [...mappedMessage.matchAll(urlRegex)]
-    console.log(urlMatches);
-    console.log(message);
-    
-    
+    const urlMatches = [...mappedMessage.matchAll(urlRegex)]    
     const uniqueUrlMatches = new Set(urlMatches.map(match => match[0]));
-     
-    uniqueUrlMatches.forEach(urlMatche => {
+    uniqueUrlMatches.forEach(urlMatche => {      
       mappedMessage = mappedMessage.replace(
-        new RegExp(`${urlMatche}`, 'gim'), 
+        new RegExp(`${this.escapeRegExp(urlMatche)}`, 'gim'), 
         `<a href="${urlMatche}" target="_blank">${urlMatche}</a>`)
     });
-
     
     const userTagMatches = [...mappedMessage.matchAll(userTagRegex)]
     const uniqueUserTagMatches = new Set(userTagMatches.map(match => match[1]));
     uniqueUserTagMatches.forEach(userTagMatche => {
       mappedMessage = mappedMessage.replace(
-        new RegExp(`(?:\\B)${userTagMatche}`, 'gim'), 
+        new RegExp(`(?:\\B)${this.escapeRegExp(userTagMatche)}`, 'gim'), 
         `<span class="user-tag">${userTagMatche}</span>`)
     });
 

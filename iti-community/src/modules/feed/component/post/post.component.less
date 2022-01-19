@@ -1,3 +1,4 @@
+
 .post {
   background-color: white;
   max-width: 720px;
@@ -5,11 +6,17 @@
   position: relative;
   border-radius: 8px;
 
-  .post-text {
+  .post-text::ng-deep {
     padding: 20px 30px 20px 50px;
     margin: 0;
     word-break: break-all;
+    .user-tag {
+      color: #14623b;
+      font-style: italic;
+      font-weight: bold;
+    }
   }
+  
 
   .post-author-name,
   .post-date {
@@ -74,4 +81,6 @@
     border-radius: 0 0 8px 8px;
     overflow: hidden;
   }
+
+  
 }

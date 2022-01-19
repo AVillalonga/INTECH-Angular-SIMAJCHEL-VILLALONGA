@@ -11,19 +11,17 @@
     <i nz-icon nzType="heart" [nzTheme]="post.liked ? 'fill' : 'outline'"></i>
   </div>
 
-  <p class="post-text">
-    {{ post.message.text.content }} {{post.message.attachements.length}}
+  <p class="post-text" [innerHTML]="post.message.text.content">
   </p>
 
   <!-- Itérer sur les "attachements" du message -->
   <div class="post-attachements" *ngFor="let element of post.message.attachements">
     <!-- Utiliser ngIf pour afficher le bon composant en fonction du type d'élément-->
 
-
-    <div *ngIf="element.type === 'image'">
-      HELLO
-      <app-post-attachement-image [element]="element" ></app-post-attachement-image>
-    </div>
+    <app-post-attachement-image *ngIf="element.type === 'image'" [element]="element" ></app-post-attachement-image>
+    <app-post-attachement-audio *ngIf="element.type === 'audio'" [element]="element" ></app-post-attachement-audio>
+    <app-post-attachement-video *ngIf="element.type === 'video'" [element]="element" ></app-post-attachement-video>
+    <app-post-attachement-youtube *ngIf="element.type === 'youtube'" [element]="element" ></app-post-attachement-youtube>
   </div>
   <div #anchor></div>
 </div>

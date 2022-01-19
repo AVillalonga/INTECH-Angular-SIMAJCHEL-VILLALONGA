@@ -22,21 +22,29 @@ export class PostMapper {
     
     const urlRegex = /((http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-]))/gmi;
     
-    const userTagRegex = /(?:\s|^)(@[a-zA-Z0-9](?:[._-](?![._-])|[a-zA-Z0-9]){1,18}[a-zA-Z0-9])(?:\s|[\b]|$)/gmi;
+    //const userTagRegex = /(?:\s|^)(@[a-zA-Z0-9](?:[._-](?![._-])|[a-zA-Z0-9]){1,18}[a-zA-Z0-9])(?:\s|[\b]|$)/gmi;
+    const userTagRegex = /(?:\B)(@[a-zA-Z0-9](?:[._-](?![._-])|[a-zA-Z0-9]){1,18}[a-zA-Z0-9])/gmi;
 
     const attachements: MessageElement[] = [];
 
     var mappedMessage = message
     const urlMatches = [...mappedMessage.matchAll(urlRegex)]
-    urlMatches.forEach(urlMatche => {
-      mappedMessage = mappedMessage.replace(urlMatche[0], `<a href="${urlMatche[0]}" target="_blank">${urlMatche[0]}</a>`)
+    
+    const uniqueUrlMatches = new Set(urlMatches.map(match => match[0]));
+     
+    uniqueUrlMatches.forEach(urlMatche => {
+      mappedMessage = mappedMessage.replace(
+        new RegExp(`${urlMatche}`, 'gim'), 
+        `<a href="${urlMatche}" target="_blank">${urlMatche}</a>`)
     });
 
+    
     const userTagMatches = [...mappedMessage.matchAll(userTagRegex)]
-    userTagMatches.forEach(userTagMatche => {
+    const uniqueUserTagMatches = new Set(userTagMatches.map(match => match[1]));
+    uniqueUserTagMatches.forEach(userTagMatche => {
       mappedMessage = mappedMessage.replace(
-        userTagMatche[1], 
-        `<span class="user-tag">${userTagMatche[1]}</span>`)
+        new RegExp(`(?:\\B)${userTagMatche}`, 'gim'), 
+        `<span class="user-tag">${userTagMatche}</span>`)
     });
 
     const pictureMatches = [...message.matchAll(pictureRegex)]    

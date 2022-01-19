@@ -2,36 +2,34 @@
 
 :host {
   height: 100vh;
-  
-  ::ng-deep .ant-timeline-item {
-    padding-bottom: 8px;
-    padding-right: 8px;
-  }
-
-
-  ::ng-deep .ant-timeline-item > .ant-timeline-item-content {
-    padding-left: 8px;
-    border-radius: 3px;
-  }
-
-  ::ng-deep .ant-timeline-item:nth-child(2n) > .ant-timeline-item-content {
-    background-color:rgba(0,0,0,.05);
-  }
-
-  ::ng-deep .ant-timeline-item:nth-child(2n+1) > .ant-timeline-item-content {
-    background-color:rgba(0,0,0,.1);
-  }
-
-  ::ng-deep .ant-timeline {
-    height: 100vh;
-    overflow: auto;
-    padding:12px 0;
-  }
 }
 
 .app-layout {
   height: 100%;
   display: flex;
+
+  ::ng-deep .preview {
+    background-color: #428bca30;
+    padding: 0 0.5rem;
+  }
+
+  @keyframes fadeInNotification {
+    0% { background-color: #428bca; }
+    100% { background-color: #FFFFFF00; }
+  }
+
+  ::ng-deep nz-list nz-spin .ant-spin-container {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  ::ng-deep nz-list-item {
+    animation: fadeInNotification 1s linear both;
+  }
+
+  ::ng-deep nz-list .ant-list-item-meta-avatar {
+    margin-right:0.5rem;
+  }
 
   .panel-drawer {
     position: absolute;
@@ -44,10 +42,15 @@
     z-index: 1;
     background-color: white;
     transition: all .2s ease;
-    padding-left: 12px;
+    padding:1rem 1rem;
 
     &.opened {
       transform: translate(200px);
+    }
+
+    .notification-username {
+      color: #428bca;
+      font-weight: 600;
     }
   }
 

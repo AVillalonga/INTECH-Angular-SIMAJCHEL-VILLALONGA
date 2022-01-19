@@ -4,7 +4,6 @@ import { AuthenticationStore } from "src/modules/authentication/authentication.s
 import { WebSocketTopic } from "src/modules/common/WebSocketTopic";
 import { AnyNotification } from "../notification.model";
 import { NotificationStore } from "../notification.store";
-import { NotificationService } from "./notification.service";
 
 @Injectable()
 export class NotificationSocketService {
@@ -13,8 +12,7 @@ export class NotificationSocketService {
   constructor(
     private socketTopic: WebSocketTopic,
     private authStore: AuthenticationStore,
-    private notificationStore: NotificationStore,
-    private notificationService: NotificationService) {
+    private notificationStore: NotificationStore) {
     authStore.get(s => s ? s.userId : undefined)
       .pipe(distinctUntilChanged())
       .subscribe(userId => {
@@ -29,7 +27,7 @@ export class NotificationSocketService {
           this.subscribe(this.subscription[0], this.subscription[1]);
         }
       });
-      this.notificationService.fetch();
+
       this.onNewNotification(this.appendNotification.bind(this));
   }
 
@@ -46,7 +44,6 @@ export class NotificationSocketService {
   }
 
   private appendNotification(notif: AnyNotification) {
-    console.log("new notification")
     this.notificationStore.appendNotification(notif);
   }
 

@@ -1,16 +1,35 @@
 <div class="app-layout">
   <div class="panel-drawer" [ngClass]="{opened: showDrawer}">
     <!-- Afficher la liste des notifications -->
-    <nz-timeline>
+    <nz-list nzItemLayout="horizontal">
       <ng-container *ngIf="(notification$ | async) as notificationState" class="timeline">
-        <nz-timeline-item *ngFor="let notififcation of notificationState.notifications" (click)="openRoom(notification.payload.room.id)">
-          <div *ngIf="notififcation.subject === 'room_added'">
-            {{ notififcation | json }}
-            <!-- Ajout d'une room {{ notification.payload.room.name }} -->
-          </div>
-        </nz-timeline-item>
+        
+        <nz-list-item *ngFor="let notif of notificationState.notifications" (click)='redirectByNotif(notif)'>
+          <nz-list-item-meta [nzAvatar]="notif.payload.user.photoUrl"
+            [nzDescription]="notif.timestamp | feedDatePipe : 'short'">
+            <nz-list-item-meta-title>
+
+              <div>
+                <span class="notification-username">{{ notif.payload.user.username }}</span>
+                <span class="notification-description" *ngIf="notif.subject === 'new_user'">
+                  viens de nous rejoindre
+                </span>
+
+                <span class="notification-description" *ngIf="notif.subject === 'post_liked'">
+                  à liker l'un de votre post : <i class="preview">{{ notif.payload.preview | slice : 0 : 32 }}</i>
+                </span>
+
+                <span class="notification-description" *ngIf="notif.subject === 'room_added'">
+                  à ajouté la room {{ notif.payload.room.name }}
+                </span>
+
+              </div>
+            </nz-list-item-meta-title>
+          </nz-list-item-meta>
+        </nz-list-item>
+        
       </ng-container>
-    </nz-timeline>
+    </nz-list>
 
   </div>
   <div class="app-layout-panel-left">

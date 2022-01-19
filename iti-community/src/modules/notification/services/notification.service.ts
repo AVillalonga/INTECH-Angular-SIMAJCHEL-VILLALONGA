@@ -9,7 +9,6 @@ export class NotificationService {
     private store: NotificationStore,
     private notificationQueries: NotificationQueries,
     private notificationCommands: NotificationCommands
-
   ) {
   }
 

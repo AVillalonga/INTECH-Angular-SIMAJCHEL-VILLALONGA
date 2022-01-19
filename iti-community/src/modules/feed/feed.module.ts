@@ -29,7 +29,7 @@ import { FeedDatePipe } from './pipe/feed-date.pipe';
     PostAttachementYoutubeComponent,
     FeedDatePipe
   ],
-  exports: [FeedComponent, PostComponent],
+  exports: [FeedComponent, PostComponent, FeedDatePipe],
   providers: [FeedSocketService, PostMapper, PostService, FeedStore, {
     provide: PostCommands,
     useClass: HttpPostCommands

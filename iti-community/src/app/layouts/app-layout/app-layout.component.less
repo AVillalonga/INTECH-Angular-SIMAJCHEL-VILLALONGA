@@ -5,8 +5,54 @@
 }
 
 .app-layout {
-  height: 100%;
+  height: 100vh;
   display: flex;
+
+  ::ng-deep .preview {
+    background-color: #428bca30;
+    padding: 0 0.5rem;
+  }
+
+  @keyframes fadeInNotification {
+    0% { background-color: #428bca; }
+    100% { background-color: #428bca10; }
+  }
+
+  ::ng-deep nz-list nz-spin {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height: 100vh;
+  }
+
+  ::ng-deep nz-list nz-spin .ant-spin-container {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  ::ng-deep nz-list-item {
+    // animation: fadeInNotification 1s linear;
+    padding: 1rem;
+    border-bottom: 0;
+    transition: 300ms;
+  }
+
+  :ng-deep .ant-list:hover {
+    background-color: #428bca60;
+  }
+
+  ::ng-deep nz-list .ant-list-item-meta-avatar {
+    margin-right:0.5rem;
+  }
+
+  ::ng-deep .unviewed {
+    border-left: 2px solid yellowgreen;
+    background-color: rgba(0,255,0,0.1);
+  }
+
+  ::ng-deep .viewed {
+    border-left: 2px solid #428bca;
+    background-color: #428bca10;
+  }
 
   .panel-drawer {
     position: absolute;
@@ -22,6 +68,11 @@
 
     &.opened {
       transform: translate(200px);
+    }
+
+    .notification-username {
+      color: #428bca;
+      font-weight: 600;
     }
   }
 

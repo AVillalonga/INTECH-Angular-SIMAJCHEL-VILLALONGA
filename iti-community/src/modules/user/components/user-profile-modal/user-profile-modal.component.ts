@@ -1,8 +1,10 @@
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, NgForm, ValidationErrors, Validators } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { User } from '../../user.model';
+import { Observable, Observer } from 'rxjs';
+import { UserQueries } from '../../services/user.queries';
 
 export class UserProfileForm {
   id: string;
@@ -54,38 +56,49 @@ export class UserProfileModalComponent implements OnInit {
   @Input()
   user: User;
 
-  @ViewChild("f")
-  form: NgForm;
+  formProfileEdition: FormGroup;
   supportedTypes = "";
   isVisible: boolean = false;
   model: UserProfileForm;
 
-  constructor(private userService: UserService, private sanitizer: DomSanitizer) {
-
-  }
+  constructor(
+    private userService: UserService,
+    private sanitizer: DomSanitizer,
+    private fb: FormBuilder,
+    private userQueries: UserQueries
+  ) { }
 
   ngOnInit(): void {
     this.model = new UserProfileForm(this.user);
+    this.formProfileEdition = this.fb.group({
+      username: ['', [Validators.required], [this.userNameAsyncValidator]]
+    });
   }
 
   get photoUrl(): SafeResourceUrl {
     return this.sanitizer.bypassSecurityTrustResourceUrl(this.model.photoUrl || "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/434px-Unknown_person.jpg");
   }
+  
+  userNameAsyncValidator = (control: FormControl) =>
+    new Observable((observer: Observer<ValidationErrors | null>) => {
+      setTimeout(async () => {
+        if (await this.userQueries.exists(control.value)) observer.next({ error: true, duplicated: true });
+        else observer.next(null);
+        observer.complete();
+      }, 1000);
+    });
 
   async onOk() {
-    // TODO vérifier si le formulaire est valide
-    if(!this.form.valid) return
-
-    if (this.model.hasChanged()) {
-      // TODO mettre à jour l'utilisateur via le service    
-      this.userService.update({
-        id : this.model.id,
-        username : this.model.username,
-        photo : this.model.file  
-      })
+    if (this.formProfileEdition.valid) {
+      if (this.model.hasChanged()) {
+        this.userService.update({
+          id: this.model.id,
+          username: this.model.username,
+          photo: this.model.file
+        })
+      }
+      this.close();
     }
-
-    this.close();
   }
 
   onFileUpload = (file: File) => {
@@ -99,7 +112,7 @@ export class UserProfileModalComponent implements OnInit {
 
   open() {
     this.model = new UserProfileForm(this.user);
-    this.form.resetForm(this.model);
+    this.formProfileEdition.reset();
     this.isVisible = true;
   }
 

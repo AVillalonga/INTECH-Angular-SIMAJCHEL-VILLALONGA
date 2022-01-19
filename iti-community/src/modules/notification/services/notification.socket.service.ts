@@ -3,12 +3,16 @@ import { distinctUntilChanged } from "rxjs/operators";
 import { AuthenticationStore } from "src/modules/authentication/authentication.store";
 import { WebSocketTopic } from "src/modules/common/WebSocketTopic";
 import { AnyNotification } from "../notification.model";
+import { NotificationStore } from "../notification.store";
 
 @Injectable()
 export class NotificationSocketService {
   private subscription?: [string, (notif: AnyNotification) => any];
 
-  constructor(private socketTopic: WebSocketTopic, private authStore: AuthenticationStore) {
+  constructor(
+    private socketTopic: WebSocketTopic,
+    private authStore: AuthenticationStore,
+    private notificationStore: NotificationStore) {
     authStore.get(s => s ? s.userId : undefined)
       .pipe(distinctUntilChanged())
       .subscribe(userId => {
@@ -23,6 +27,8 @@ export class NotificationSocketService {
           this.subscribe(this.subscription[0], this.subscription[1]);
         }
       });
+
+      this.onNewNotification(this.appendNotification.bind(this));
   }
 
   onNewNotification(callback: (notif: AnyNotification) => any) {
@@ -35,6 +41,10 @@ export class NotificationSocketService {
     }
     const userId = this.authStore.value.userId;
     this.subscribe(userId, callback);
+  }
+
+  private appendNotification(notif: AnyNotification) {
+    this.notificationStore.appendNotification(notif);
   }
 
   private subscribe(userId: string, callback: (notif: AnyNotification) => any) {

@@ -118,9 +118,7 @@ export class FeedInputComponent {
    * InputKeyUp event handler. Use to watch arrows key press to know when to show mention list
    * @param e
    */
-  onInputKeyUp(e: KeyboardEvent) {
-
-  }
+  onInputKeyUp(e: KeyboardEvent) {}
 
   async searchMentionedUsers(search: string) {
     if (!search) {

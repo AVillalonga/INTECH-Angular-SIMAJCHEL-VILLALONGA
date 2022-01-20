@@ -5,6 +5,7 @@ import { WebSocketTopic } from "src/modules/common/WebSocketTopic";
 import { AnyNotification } from "../notification.model";
 import { NotificationStore } from "../notification.store";
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { WebNotificationService } from "./web-notification.service";
 
 @Injectable()
 export class NotificationSocketService {
@@ -47,8 +48,6 @@ export class NotificationSocketService {
 
   private appendNotification(notif: AnyNotification) {
     this.notificationStore.appendNotification(notif);
-
-
     let title = notif.payload.user.username;
     let content = '';
     switch (notif.subject) {
@@ -62,7 +61,7 @@ export class NotificationSocketService {
         break;
 
       case 'room_added':
-        title += 'à ajouté la room ' + notif.payload.room.name;
+        title += ' à ajouté la room ' + notif.payload.room.name;
         break;
     }
 

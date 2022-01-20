@@ -27,6 +27,7 @@ import { WebsocketConnection } from 'src/modules/common/WebsocketConnection';
 import { SocketIoWebsocketConnection } from 'src/modules/common/SocketIoWebsocketConnection';
 import { WebSocketTopic } from 'src/modules/common/WebSocketTopic';
 import { NzListModule } from 'ng-zorro-antd/list';
+import { WebNotificationService } from 'src/modules/notification/services/web-notification.service';
 const ws = new SocketIoWebsocketConnection();
 
 registerLocaleData(fr);
@@ -60,7 +61,8 @@ registerLocaleData(fr);
   providers: [{ provide: NZ_I18N, useValue: fr_FR }, {
     provide: WebsocketConnection,
     useValue: ws
-  }, WebSocketTopic],
+  }, WebSocketTopic,
+    WebNotificationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

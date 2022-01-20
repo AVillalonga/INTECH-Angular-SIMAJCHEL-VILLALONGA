@@ -73,6 +73,8 @@ export class UserProfileModalComponent implements OnInit {
     this.formProfileEdition = this.fb.group({
       username: ['', [Validators.required], [this.userNameAsyncValidator]]
     });
+
+    this.formProfileEdition.patchValue({ username: this.user.username });
   }
 
   get photoUrl(): SafeResourceUrl {
@@ -82,7 +84,7 @@ export class UserProfileModalComponent implements OnInit {
   userNameAsyncValidator = (control: FormControl) =>
     new Observable((observer: Observer<ValidationErrors | null>) => {
       setTimeout(async () => {
-        if (await this.userQueries.exists(control.value)) observer.next({ error: true, duplicated: true });
+        if (await this.userQueries.exists(control.value) &&  control.value != this.user.username) observer.next({ error: true, duplicated: true });
         else observer.next(null);
         observer.complete();
       }, 1000);
@@ -112,11 +114,11 @@ export class UserProfileModalComponent implements OnInit {
 
   open() {
     this.model = new UserProfileForm(this.user);
-    this.formProfileEdition.reset();
     this.isVisible = true;
   }
 
   close() {
     this.isVisible = false;
+    //this.formProfileEdition.reset();
   }
 }

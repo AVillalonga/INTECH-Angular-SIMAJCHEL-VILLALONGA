@@ -15,6 +15,7 @@ import { environment as envDev } from '../../../environments/environment';
 import { Router } from '@angular/router';
 import { PostService } from 'src/modules/feed/services/post.service';
 import { PostQueries } from 'src/modules/feed/services/post.queries';
+import { WebNotificationService } from 'src/modules/notification/services/web-notification.service';
 
 
 @Component({
@@ -33,6 +34,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
     private authStore: AuthenticationStore,
     private notificationStore: NotificationStore,
     private notificationService: NotificationService,
+    private webNotificationService: WebNotificationService,
     private router: Router) {
   }
 

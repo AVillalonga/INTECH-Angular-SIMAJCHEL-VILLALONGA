@@ -6,7 +6,7 @@ import { AnyNotification } from "../notification.model";
 import { NotificationStore } from "../notification.store";
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { WebNotificationService } from "./web-notification.service";
-import { RoomSocketService } from "src/modules/room/services/room.socket.service";
+import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
 
 @Injectable()
 export class NotificationSocketService {
@@ -16,7 +16,8 @@ export class NotificationSocketService {
     private socketTopic: WebSocketTopic,
     private authStore: AuthenticationStore,
     private notificationStore: NotificationStore,
-    private nzNotificationService: NzNotificationService) {
+    private nzNotificationService: NzNotificationService,
+    private webNotificationService: WebNotificationService) {
     authStore.get(s => s ? s.userId : undefined)
       .pipe(distinctUntilChanged())
       .subscribe(userId => {
@@ -35,9 +36,6 @@ export class NotificationSocketService {
     this.onNewNotification(this.appendNotification.bind(this));
   }
 
-
-
-
   onNewNotification(callback: (notif: AnyNotification) => any) {
     if (!this.authStore.value) {
       throw new Error("User should be authenticated before listening to its notifications");
@@ -46,17 +44,14 @@ export class NotificationSocketService {
     if (this.subscription) {
       this.unsubscribe(this.subscription[0], this.subscription[1]);
     }
-    
+
     const userId = this.authStore.value.userId;
     this.subscribe(userId, callback);
   }
 
-
-
-
   private appendNotification(notif: AnyNotification) {
 
-    console.log(notif);
+    console.log('NOTIFICATION SOCKET SERVICE ', notif);
 
     this.notificationStore.appendNotification(notif);
     let title = notif.payload.user.username;
@@ -75,7 +70,7 @@ export class NotificationSocketService {
         title += ' à ajouté la room ' + notif.payload.room.name;
         break;
     }
-
+    this.webNotificationService.createWebNotification(notif);
     this.nzNotificationService.info(title, content, {
       nzStyle: {
         width: '600px'

@@ -16,7 +16,6 @@ export class WebNotificationService {
     };
 
     constructor(
-        private notificationSocketService: NotificationSocketService,
         private router: Router,
         private ngZone: NgZone) {
         if (this._isGranted()) {
@@ -32,17 +31,15 @@ export class WebNotificationService {
                 }
             }
         }
-        this.notificationSocketService.onNewNotification(this.appendWebNotification.bind(this));
     }
 
-    public appendWebNotification(notification: AnyNotification) {
+    public createWebNotification(notification: AnyNotification) {
+        console.log('WEB NOTIFICATION SERVICE ', notification);
         if (this.hasPermission && !this._isVisible()) {
             let title = notification.payload.user.username;
             let content = '';
             let imageUrl = '';
             let url: string[] = [];
-            let postId = '';
-            let roomId = '';
             
             switch (notification.subject) {
                 case 'new_user':

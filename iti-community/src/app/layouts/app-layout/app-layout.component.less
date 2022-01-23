@@ -17,23 +17,35 @@
     0% { background-color: #00000000; }
     100% { background-color: #00000030; }
   }
+  
+  ::ng-deep nz-list {
+    width: 300px;
+    display: flex;
+  }
 
   ::ng-deep nz-list nz-spin {
     overflow-y: scroll;
     overflow-x: hidden;
-    max-height: 100vh;
+    height: 100vh;
+    width: 100%;
+    background-color: #334048;
+    border-left:1px solid rgba(255,255,255,.2);
+  }
+
+  ::ng-deep nz-list nz-spin * { 
+    color:white;
   }
 
   ::ng-deep nz-list nz-spin .ant-spin-container {
     display: flex;
     flex-direction: column-reverse;
-    background-color:white;
   }
 
   ::ng-deep nz-list-item {
     padding: 1rem;
     border-bottom: 0;
     transition: 300ms;
+    border-top:1px solid rgba(255,255,255,.2);
   }
 
   ::ng-deep nz-list .ant-list-item-meta-avatar {
@@ -41,13 +53,11 @@
   }
 
   ::ng-deep .unviewed {
-    border-left: 2px solid yellowgreen;
     background-color: rgba(0,255,0,0.3);
   }
 
   ::ng-deep .viewed {
-    border-left: 2px solid #428bca;
-    background-color: #428bca10;
+    background-color: #428bca50;
   }
 
   .panel-drawer {
@@ -63,10 +73,6 @@
     &.opened {
       display: flex;
       transform: translate(calc(100% + 480px));
-    }
-
-    nz-list {
-      width: 300px;
     }
 
     .notification-username {

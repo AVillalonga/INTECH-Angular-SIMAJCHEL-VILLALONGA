@@ -62,14 +62,14 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
   }
 
   redirectByNotif(notif: AnyNotification) {
-    console.log(notif);
     switch (notif.subject) {
       case 'new_user':
         // ne rien faire..
         break;
 
       case 'post_liked':
-        // ne rien faire..
+        this.router.navigate(['/', (notif as PostLikedNotification).payload.roomId]);
+        this.onToggleNotifications();
         break;
 
       case 'room_added':

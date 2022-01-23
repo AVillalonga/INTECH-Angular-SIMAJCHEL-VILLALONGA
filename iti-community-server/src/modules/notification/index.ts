@@ -49,12 +49,11 @@ export function registerNotificationModule(container: Container, emitter: Domain
         }
 
         const user = await userRepo.findById(payload.userId);
-        if (!user) {
-            throw new Error("User not found");
-        }
+        if (!user) throw new Error("User not found");
 
         await notifService.append(post.createdBy, "post_liked", {
             postId: post.id,
+            roomId: post.roomId,
             preview: post.message.substr(0, 128),
             user: {
                 id: user.id,

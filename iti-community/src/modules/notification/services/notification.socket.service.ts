@@ -6,6 +6,7 @@ import { AnyNotification } from "../notification.model";
 import { NotificationStore } from "../notification.store";
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { WebNotificationService } from "./web-notification.service";
+import { RoomSocketService } from "src/modules/room/services/room.socket.service";
 
 @Injectable()
 export class NotificationSocketService {
@@ -34,6 +35,9 @@ export class NotificationSocketService {
     this.onNewNotification(this.appendNotification.bind(this));
   }
 
+
+
+
   onNewNotification(callback: (notif: AnyNotification) => any) {
     if (!this.authStore.value) {
       throw new Error("User should be authenticated before listening to its notifications");
@@ -42,11 +46,18 @@ export class NotificationSocketService {
     if (this.subscription) {
       this.unsubscribe(this.subscription[0], this.subscription[1]);
     }
+    
     const userId = this.authStore.value.userId;
     this.subscribe(userId, callback);
   }
 
+
+
+
   private appendNotification(notif: AnyNotification) {
+
+    console.log(notif);
+
     this.notificationStore.appendNotification(notif);
     let title = notif.payload.user.username;
     let content = '';
@@ -69,14 +80,20 @@ export class NotificationSocketService {
       nzStyle: {
         width: '600px'
       }
-    })
+    });
   }
+
+
+
 
   private subscribe(userId: string, callback: (notif: AnyNotification) => any) {
     this.subscription = [userId, callback];
     this.socketTopic.subscribe(`notifications_${userId}`, callback);
     this.socketTopic.subscribe(`notifications`, callback);
   }
+
+
+
 
   private unsubscribe(userId: string, callback: (notif: AnyNotification) => any) {
     this.socketTopic.unsubscribe(`notifications_${userId}`, callback);

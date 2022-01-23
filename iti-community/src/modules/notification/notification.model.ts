@@ -22,6 +22,7 @@ export type RoomAddedNotification = AppNotification<'room_added', {
 export type PostLikedNotification = AppNotification<'post_liked', {
   user: User;
   postId: string;
+  roomId: string;
   preview: string;
 }>
 

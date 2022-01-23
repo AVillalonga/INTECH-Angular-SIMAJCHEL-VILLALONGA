@@ -1,13 +1,11 @@
-import { Injectable } from "@angular/core";
-import { PartialObserver, Subscription } from "rxjs";
+import { Injectable, NgZone } from "@angular/core";
+import { Router } from "@angular/router";
 import { AnyNotification } from "../notification.model";
-import { NotificationState } from "../notification.state";
-import { NotificationStore } from "../notification.store";
 import { NotificationSocketService } from "./notification.socket.service";
+
 
 @Injectable()
 export class WebNotificationService {
-
 
     public hasPermission: boolean = false;
 
@@ -17,7 +15,10 @@ export class WebNotificationService {
         DEFAULT: "default"
     };
 
-    constructor(private notificationSocketService: NotificationSocketService) {
+    constructor(
+        private notificationSocketService: NotificationSocketService,
+        private router: Router,
+        private ngZone: NgZone) {
         if (this._isGranted()) {
             this.hasPermission = true;
         } else {
@@ -31,7 +32,6 @@ export class WebNotificationService {
                 }
             }
         }
-
         this.notificationSocketService.onNewNotification(this.appendWebNotification.bind(this));
     }
 
@@ -40,6 +40,10 @@ export class WebNotificationService {
             let title = notification.payload.user.username;
             let content = '';
             let imageUrl = '';
+            let url: string[] = [];
+            let postId = '';
+            let roomId = '';
+            
             switch (notification.subject) {
                 case 'new_user':
                     title += ' viens de nous rejoindre';
@@ -49,16 +53,24 @@ export class WebNotificationService {
                 case 'post_liked':
                     title += ' à liker l\'un de vos post';
                     content = notification.payload.preview;
+                    url = ['/', notification.payload.roomId];
                     imageUrl = '/assets/icons/like.png';
                     break;
 
                 case 'room_added':
                     title += ' à ajouté la room ' + notification.payload.room.name;
                     imageUrl = '/assets/icons/add_room.png';
+                    url = ['/', notification.payload.room.id];
                     break;
             }
 
-            const nebNotification = new Notification(title, { body: content, icon: imageUrl });
+            const webNotification = new Notification(title, { body: content, icon: imageUrl });
+            if(url.length > 0) {
+                webNotification.onclick = async () => {
+                    console.log(url);
+                    this.ngZone.run(() => { this.router.navigate(url); });
+                };
+            }
         }
     }
 
